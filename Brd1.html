@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy Birthday!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at top left, #ff5f6d, #ffc371);
+      overflow: hidden;
+      height: 100vh;
+      font-family: 'Pacifico', cursive;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      text-shadow: 0 0 10px #fff, 0 0 20px #ff6ec7, 0 0 30px #ff6ec7;
+      animation: glow 2s infinite alternate;
+      margin-bottom: 10px;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px #fff, 0 0 20px #ff6ec7, 0 0 30px #ff6ec7;
+      }
+      to {
+        text-shadow: 0 0 20px #fff, 0 0 30px #ff3cac, 0 0 40px #ff3cac;
+      }
+    }
+
+    p {
+      font-size: 1.4rem;
+      margin: 10px 20px;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .urdu {
+      font-size: 1.1rem;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 500;
+      margin-top: 15px;
+      line-height: 2;
+      max-width: 500px;
+      padding: 0 20px;
+    }
+
+    .music-button {
+      margin-top: 25px;
+      padding: 12px 24px;
+      background-color: #ff3cac;
+      border: none;
+      border-radius: 25px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      font-family: 'Segoe UI', sans-serif;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .music-button:hover {
+      background-color: #ff6ec7;
+      transform: scale(1.05);
+    }
+
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Happy Birthday, Qandeel (Kandil)! 🎉</h1>
+  <p>Enjoy your day Girl👑</p>
+
+  <div class="urdu">
+    Allah tume lambi umer aur bohot si khushiyan de 🙌<br>
+    or Spiderman filter mat lagaya kro... kuch dhang ka karlo 😂<br>
+    Aur Nibbi mat bana kro<br>
+    Hope you will make some dhang ka Content Next Time 😂😂!!
+  </div>
+
+  <button class="music-button" onclick="playMusic()">🎵 Play Music</button>
+
+  <audio id="song">
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_37b2e78b57.mp3?filename=happy-birthday-111863.mp3" type="audio/mp3">
+  </audio>
+
+  <canvas class="confetti"></canvas>
+
+  <script>
+    function playMusic() {
+      const audio = document.getElementById('song');
+      audio.volume = 0.7;
+      audio.play().catch(() => {
+        alert("Click again to allow music playback!");
+      });
+    }
+
+    const canvas = document.querySelector('.confetti');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const confetti = [];
+    for (let i = 0; i < 300; i++) {
+      confetti.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        r: Math.random() * 6 + 2,
+        d: Math.random() * 10 + 5,
+        color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+        tilt: Math.random() * 10 - 10,
+        tiltAngle: 0
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confetti.forEach(c => {
+        ctx.beginPath();
+        ctx.lineWidth = c.r;
+        ctx.strokeStyle = c.color;
+        ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+        ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
+        ctx.stroke();
+      });
+      update();
+    }
+
+    function update() {
+      confetti.forEach(c => {
+        c.y += Math.cos(c.d) + 1 + c.r / 2;
+        c.tiltAngle += 0.05;
+        c.tilt = Math.sin(c.tiltAngle) * 15;
+        if (c.y > canvas.height) {
+          c.y = -10;
+          c.x = Math.random() * canvas.width;
+        }
+      });
+    }
+
+    setInterval(draw, 20);
+  </script>
+</body>
+</html>
